@@ -10,9 +10,9 @@
         }
     ],
 	"autoload": {
-		"psr-0": {
-			"RelayPoint\\MondialRelay" : "src/",
-			"RelayPoint\\MondialRelay\\Tests" : "tests/"
+		"psr-4": {
+			"RelayPoint\\MondialRelay\\" : "src/",
+			"RelayPoint\\MondialRelay\\Tests\\" : "tests/"
 		}
 	},
 	"repositories": [
