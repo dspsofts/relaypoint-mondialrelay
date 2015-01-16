@@ -2,7 +2,6 @@
 
 namespace RelayPoint\MondialRelay\Test;
 
-use RelayPoint\Core\OpeningHours;
 use RelayPoint\MondialRelay\OpeningHoursParser;
 
 class OpeningHoursParserTest extends \PHPUnit_Framework_TestCase
@@ -36,13 +35,10 @@ class OpeningHoursParserTest extends \PHPUnit_Framework_TestCase
 		$relayPoint->Horaires_Jeudi->string = array('0800', '1900');
 
 		$relayPoint->Horaires_Vendredi = new \stdClass();
-		$relayPoint->Horaires_Vendredi->string = array('0800', '1900');
+		$relayPoint->Horaires_Vendredi->string = array('0800', '1200', '1400', '1900');
 
 		$relayPoint->Horaires_Samedi = new \stdClass();
-		$relayPoint->Horaires_Samedi->string = array('0800', '1900');
-
-		$relayPoint->Horaires_Dimanche = new \stdClass();
-		$relayPoint->Horaires_Dimanche->string = array('0800', '1900');
+		$relayPoint->Horaires_Samedi->string = array('0800', '1400');
 
 		$actual = $this->openingHoursParser->parse($relayPoint);
 
@@ -51,9 +47,9 @@ class OpeningHoursParserTest extends \PHPUnit_Framework_TestCase
 			'Mardi' => '08:00 - 19:00',
 			'Mercredi' => '08:00 - 19:00',
 			'Jeudi' => '08:00 - 19:00',
-			'Vendredi' => '08:00 - 19:00',
-			'Samedi' => '08:00 - 19:00',
-			'Dimanche' => '08:00 - 19:00',
+			'Vendredi' => '08:00 - 12:00 14:00 - 19:00',
+			'Samedi' => '08:00 - 14:00',
+			'Dimanche' => 'Fermé',
 		);
 
 		$this->assertEquals($expected, $actual);
