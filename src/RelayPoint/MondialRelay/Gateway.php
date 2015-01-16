@@ -179,6 +179,12 @@ class Gateway extends AbstractGateway
      */
     private function parseRelayPoint(\stdClass $relayPoint)
     {
+        $optionalFields = array(
+            'adresse2',
+            'adresseAutre',
+            'urlPlan',
+        );
+
         $fields = array(
             'active' => true,
             'code' => trim($relayPoint->Num),
@@ -187,30 +193,21 @@ class Gateway extends AbstractGateway
             'zip' => trim($relayPoint->CP),
             'city' => trim($relayPoint->Ville),
             'locationHint' => trim(trim($relayPoint->Localisation1) . ' ' . trim($relayPoint->Localisation2)),
+            'longitude' => $this->getOptionalField($relayPoint, 'Longitude'),
+            'latitude' => $this->getOptionalField($relayPoint, 'Latitude'),
+            'image' => $this->getOptionalField($relayPoint, 'URL_Photo'),
+            'adresse2' => $this->getOptionalField($relayPoint, 'LgAdr4'),
+            'adresseAutre' => $this->getOptionalField($relayPoint, 'LgAdr2'),
+            'urlPlan' => $this->getOptionalField($relayPoint, 'URL_Plan'),
         );
 
-        if (isset($relayPoint->LgAdr4)) {
-            $fields['adresse2'] = trim($relayPoint->LgAdr4);
-        }
+        $fields['longitude'] = str_replace(',', '.', $fields['longitude']);
+        $fields['latitude'] = str_replace(',', '.', $fields['latitude']);
 
-        if (isset($relayPoint->LgAdr2)) {
-            $fields['adresse_autre'] = trim($relayPoint->LgAdr2);
-        }
-
-        if (isset($relayPoint->URL_Photo)) {
-            $fields['image'] = trim($relayPoint->URL_Photo);
-        }
-
-        if (isset($relayPoint->URL_Plan)) {
-            $fields['urlPlan'] = trim($relayPoint->URL_Plan);
-        }
-
-        if (isset($relayPoint->Latitude)) {
-            $fields['latitude'] = str_replace(',', '.', trim($relayPoint->Latitude));
-        }
-
-        if (isset($relayPoint->Longitude)) {
-            $fields['longitude'] = str_replace(',', '.', trim($relayPoint->Longitude));
+        foreach ($optionalFields as $fieldName) {
+            if ($fields[$fieldName] == '') {
+                unset($fields[$fieldName]);
+            }
         }
 
         $address = new Address($fields);
@@ -222,5 +219,20 @@ class Gateway extends AbstractGateway
         }
 
         return $address;
+    }
+
+    /**
+     * Returns asked field or an empty string if it isn't set.
+     *
+     * @param \stdClass $relayPoint Relay point
+     * @param string $fieldName Field name
+     * @return string
+     */
+    private function getOptionalField($relayPoint, $fieldName)
+    {
+        if (isset($relayPoint->{$fieldName})) {
+            return trim($relayPoint->{$fieldName});
+        }
+        return '';
     }
 }
