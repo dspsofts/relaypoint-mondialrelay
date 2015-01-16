@@ -39,10 +39,10 @@ class OpeningHoursParser
 	/**
 	 * Formats the hours based on the SOAP format.
 	 *
-	 * @param string $hours Hours
+	 * @param array $hours Hours
 	 * @return string Formatted hours
 	 */
-	private function formatHours($hours)
+	private function formatHours(array $hours)
 	{
 		$i = 0;
 		$detail = '';
