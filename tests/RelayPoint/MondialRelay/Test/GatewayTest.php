@@ -92,7 +92,6 @@ class GatewayTest extends \PHPUnit_Framework_TestCase
             'city' => 'city',
             'latitude' => 'latitude',
             'longitude' => 'longitude',
-
         );
         $this->assertEquals($expected, $detail->getFields());
     }
