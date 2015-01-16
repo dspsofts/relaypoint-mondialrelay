@@ -189,7 +189,7 @@ class Gateway extends AbstractGateway
         }
 
         if (isset($relayPoint->URL_Plan)) {
-            $fields['url_plan'] = trim($relayPoint->URL_Plan);
+            $fields['urlPlan'] = trim($relayPoint->URL_Plan);
         }
 
         if (isset($relayPoint->Latitude)) {

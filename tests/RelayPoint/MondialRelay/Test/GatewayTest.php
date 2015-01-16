@@ -33,6 +33,29 @@ class GatewayTest extends \PHPUnit_Framework_TestCase
             $mockAddress->Longitude = 'longitude';
             $mockAddress->Localisation1 = 'locationHint';
             $mockAddress->Localisation2 = '';
+            $mockAddress->URL_Plan = 'urlPlan';
+            $mockAddress->URL_Photo = 'image';
+
+            $mockAddress->Horaires_Lundi = new \stdClass();
+            $mockAddress->Horaires_Lundi->string = array('0800', '1900');
+
+            $mockAddress->Horaires_Mardi = new \stdClass();
+            $mockAddress->Horaires_Mardi->string = array('0800', '1900');
+
+            $mockAddress->Horaires_Mercredi = new \stdClass();
+            $mockAddress->Horaires_Mercredi->string = array('0800', '1900');
+
+            $mockAddress->Horaires_Jeudi = new \stdClass();
+            $mockAddress->Horaires_Jeudi->string = array('0800', '1900');
+
+            $mockAddress->Horaires_Vendredi = new \stdClass();
+            $mockAddress->Horaires_Vendredi->string = array('0800', '1900');
+
+            $mockAddress->Horaires_Samedi = new \stdClass();
+            $mockAddress->Horaires_Samedi->string = array('0800', '1900');
+
+            $mockAddress->Horaires_Dimanche = new \stdClass();
+            $mockAddress->Horaires_Dimanche->string = array('0800', '1900');
         }
 
         return $mockAddress;
@@ -92,6 +115,8 @@ class GatewayTest extends \PHPUnit_Framework_TestCase
             'city' => 'city',
             'latitude' => 'latitude',
             'longitude' => 'longitude',
+            'urlPlan' => 'urlPlan',
+            'image' => 'image',
         );
         $this->assertEquals($expected, $detail->getFields());
     }
