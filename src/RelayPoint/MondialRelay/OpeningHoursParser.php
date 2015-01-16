@@ -17,7 +17,7 @@ class OpeningHoursParser
 	 * Parse the SOAP result of a relay point and returns an array of OpeningHours
 	 *
 	 * @param \stdClass $relayPoint Relay point
-	 * @return array[OpeningHours]
+	 * @return OpeningHours[]
 	 */
 	public function parse(\stdClass $relayPoint)
 	{
