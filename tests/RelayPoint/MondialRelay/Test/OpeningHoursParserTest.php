@@ -40,6 +40,9 @@ class OpeningHoursParserTest extends \PHPUnit_Framework_TestCase
 		$relayPoint->Horaires_Samedi = new \stdClass();
 		$relayPoint->Horaires_Samedi->string = array('0800', '1400');
 
+		$relayPoint->Horaires_Dimanche = new \stdClass();
+		$relayPoint->Horaires_Dimanche->string = array('0000', '0000', '0000', '0000');
+
 		$actual = $this->openingHoursParser->parse($relayPoint);
 
 		$expected = array(

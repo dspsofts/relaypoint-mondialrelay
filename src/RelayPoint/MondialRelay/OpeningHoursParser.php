@@ -23,33 +23,42 @@ class OpeningHoursParser
 		$hours = array();
 
 		foreach ($days as $day) {
-			$detail = '';
+			$hours[$day] = '';
 			if (isset($relayPoint->{'Horaires_' . $day}) && !empty($relayPoint->{'Horaires_' . $day})) {
-				$i = 0;
-				foreach ($relayPoint->{'Horaires_' . $day} as $openingHours) {
-					foreach ($openingHours as $openingHour) {
-						if ($openingHour != '0000') {
-							if ($i > 0) {
-								if ($i % 2 == 0) {
-									$detail .= ' ';
-								} else {
-									$detail .= ' - ';
-								}
-							}
-							$detail .= substr($openingHour, 0, 2) . ':' . substr($openingHour, -2);
-							$i++;
-						}
-					}
-				}
-
-				$hours[$day] = $detail;
+				$hours[$day] = $this->formatHours($relayPoint->{'Horaires_' . $day}->string);
 			}
 
-			if ($detail == '') {
+			if ($hours[$day] == '') {
 				$hours[$day] = 'Fermé';
 			}
 		}
 
 		return $hours;
+	}
+
+	/**
+	 * Formats the hours based on the SOAP format.
+	 *
+	 * @param string $hours Hours
+	 * @return string Formatted hours
+	 */
+	private function formatHours($hours)
+	{
+		$i = 0;
+		$detail = '';
+		foreach ($hours as $openingHour) {
+			if ($openingHour != '0000') {
+				if ($i > 0) {
+					if ($i % 2 == 0) {
+						$detail .= ' ';
+					} else {
+						$detail .= ' - ';
+					}
+				}
+				$detail .= substr($openingHour, 0, 2) . ':' . substr($openingHour, -2);
+				$i++;
+			}
+		}
+		return $detail;
 	}
 }
