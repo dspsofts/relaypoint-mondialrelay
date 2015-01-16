@@ -19,12 +19,28 @@ class Gateway extends AbstractGateway
 
     const SERVICE = 'WSI3_PointRelais_Recherche';
 
+    /**
+     * SOAP client for communication with Mondial Relay webservices
+     *
+     * @var \SoapClient
+     */
     protected $soapClient;
 
+    /**
+     * Parser for the opening hours.
+     *
+     * @var OpeningHoursParser
+     */
+    protected $openingHoursParser;
+
+    /**
+     * Constructor.
+     */
     public function __construct()
     {
         parent::__construct();
         $this->soapClient = new \SoapClient(self::URL);
+        $this->openingHoursParser = new OpeningHoursParser();
     }
 
     /**
@@ -163,9 +179,6 @@ class Gateway extends AbstractGateway
      */
     private function parseRelayPoint(\stdClass $relayPoint)
     {
-        $days = array('Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche');
-        $hours = array();
-
         $fields = array(
             'active' => true,
             'code' => trim($relayPoint->Num),
@@ -202,33 +215,7 @@ class Gateway extends AbstractGateway
 
         $address = new Address($fields);
 
-        foreach ($days as $day) {
-            $detail = '';
-            if (isset($relayPoint->{'Horaires_' . $day}) && !empty($relayPoint->{'Horaires_' . $day})) {
-                $i = 0;
-                foreach ($relayPoint->{'Horaires_' . $day} as $openingHours) {
-                    foreach ($openingHours as $openingHour) {
-                        if ($openingHour != '0000') {
-                            if ($i > 0) {
-                                if ($i % 2 == 0) {
-                                    $detail .= ' ';
-                                } else {
-                                    $detail .= ' - ';
-                                }
-                            }
-                            $detail .= substr($openingHour, 0, 2) . ':' . substr($openingHour, -2);
-                            $i++;
-                        }
-                    }
-                }
-
-                $hours[$day] = $detail;
-            }
-
-            if ($detail == '') {
-                $hours[$day] = 'Fermé';
-            }
-        }
+        $hours = $this->openingHoursParser->parse($relayPoint);
 
         foreach ($hours as $day => $hour) {
             $address->addOpeningHour($day, $hour);
