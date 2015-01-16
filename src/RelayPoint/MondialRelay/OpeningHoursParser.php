@@ -9,15 +9,13 @@
 
 namespace RelayPoint\MondialRelay;
 
-use RelayPoint\Core\OpeningHours;
-
 class OpeningHoursParser
 {
 	/**
 	 * Parse the SOAP result of a relay point and returns an array of OpeningHours
 	 *
 	 * @param \stdClass $relayPoint Relay point
-	 * @return OpeningHours[]
+	 * @return array
 	 */
 	public function parse(\stdClass $relayPoint)
 	{
