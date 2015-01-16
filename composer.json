@@ -1,0 +1,31 @@
+{
+	"name" : "relaypoint/mondialrelay",
+	"description": "Relay point search for Mondial Relay",
+	"license": "MIT",
+	"type": "library",
+    "authors": [
+        {
+            "name": "Pierre Feyssaguet",
+            "email": "pfeyssaguet@gmail.com"
+        }
+    ],
+	"autoload": {
+		"psr-0": {
+			"RelayPoint\\MondialRelay" : "src/",
+			"RelayPoint\\MondialRelay\\Tests" : "tests/"
+		}
+	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/pfeyssaguet/relaypoint-core.git"
+		}
+	],
+	"require": {
+		"php": ">=5.3.3",
+	  	"relaypoint/core": "dev-master"
+	},
+	"require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    }
+}
